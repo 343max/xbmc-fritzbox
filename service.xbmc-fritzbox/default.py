@@ -136,14 +136,15 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((ip, 1012))
 xbmc.log('connected to fritzbox callmonitor')
 #s.setblocking(0) #DONT USE High CPU Load
-#s.settimeout(0.0)
+s.settimeout(1.0)
 while (not xbmc.abortRequested):
     try:
-        antwort = s.recv(1024) 
-        log= "[%s] %s" % (ip,antwort)
-        #xbmc.log(log)
-        items = antwort.split(';')
-        fncDict.get(items[1], errorMsg)(items)
+        antwort = s.recv(1024)
+        if antwort:
+            log= "[%s] %s" % (ip,antwort)
+            xbmc.log(log)
+            items = antwort.split(';')
+            fncDict.get(items[1], errorMsg)(items)
     except IndexError:
         text = 'ERROR: Something is wrong with the message from the fritzbox. unexpected firmware maybe'
         xbmc.log(text)
