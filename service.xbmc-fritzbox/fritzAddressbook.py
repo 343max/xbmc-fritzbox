@@ -40,8 +40,8 @@ class FbAbHandler(xml.sax.ContentHandler):
             self.contactname = content
         
         if self.aktiv == "number":
-            content.encode()
-            self.telefonbuch[content] = self.contactname.encode()
+            content.encode('utf-8')
+            self.telefonbuch[content] = self.contactname.encode('utf-8')
 
         
 
